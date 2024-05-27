@@ -1,0 +1,24 @@
+@startuml
+actor User #red
+boundary Web
+control ManagementAPI
+database RDS
+database Redis
+collections AWS_S3
+
+User -> Web : 파일 업로드
+Web -> ManagementAPI : GET /pre-signed-url
+ManagementAPI -> AWS_S3 : preSignedUrl 생성 요청
+ManagementAPI -> Redis : 10분간 유효한 업로드 파일 정보 저장. uploadId
+ManagementAPI --> Web : preSignedUrl, uploadId 리턴
+Web -> AWS_S3 : PUT preSignedUrl
+AWS_S3 --> Web : 200 OK
+Web -> ManagementAPI : POST /upload uploadId 업로드 완료 처리 요청
+ManagementAPI -> Redis : uploadId 기준 캐시 정보 조회
+Redis --> ManagementAPI : 캐시 정보 리턴
+ManagementAPI -> RDS : 업로드 완료 정보 DB 저장
+ManagementAPI -> Redis : 임시 캐시 정보 삭제
+ManagementAPI --> Web : 200 OK
+Web --> User : 업로드 완료
+
+@enduml

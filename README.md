@@ -5,6 +5,8 @@ documents
 
 ## 디렉토리 설명
 - architecture : 아키텍쳐 구성했던 내용 정리
+- rdb : rdb 관련 스크립트 및 쿼리
 - plantuml : 시퀀스 다이어그램 및 uml 문서
 - shell : 사용하기 유용한 shell script 명령어
 - tools : 사용하기 유용한 툴 설치 방법
+- uml : 시퀀스 다이어그램 및 UML
