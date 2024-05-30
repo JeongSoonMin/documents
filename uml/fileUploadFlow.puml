@@ -1,18 +1,18 @@
 @startuml
-actor User #red
+actor AdminUser #red
 boundary Web
 control ManagementAPI
 database RDS
 database Redis
 collections AWS_S3
 
-User -> Web : 파일 업로드
+AdminUser -> Web : 파일 업로드
 Web -> ManagementAPI : GET /pre-signed-url
 ManagementAPI -> AWS_S3 : 동일 파일 존재 여부 체크
 AWS_S3 --> ManagementAPI : true/false 리턴
 group 이미 파일 존재 할 경우
 ManagementAPI --> Web : 이미 파일이 존재합니다. 오류 리턴
-Web --> User : 파일 업로드 실패 리턴
+Web --> AdminUser : 파일 업로드 실패 리턴
 end group
 ManagementAPI -> AWS_S3 : preSignedUrl 생성 요청
 AWS_S3 --> ManagementAPI : preSignedUrl 리턴
@@ -26,6 +26,6 @@ Redis --> ManagementAPI : 캐시 정보 리턴
 ManagementAPI -> RDS : 업로드 완료 정보 DB 저장
 ManagementAPI -> Redis : 임시 캐시 정보 삭제
 ManagementAPI --> Web : 200 OK
-Web --> User : 업로드 완료
+Web --> AdminUser : 업로드 완료
 
 @enduml
