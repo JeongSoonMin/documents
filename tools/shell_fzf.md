@@ -5,6 +5,7 @@ fzf
 * 설치
 * > brew install fzf
 * > brew install fd
+* > brew install bat
 * 단축키 적용(zsh 터미널 기준)
 * > vi .zshrc
 
